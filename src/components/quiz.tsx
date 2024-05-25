@@ -5,7 +5,6 @@ import getMatchupData from "@/utils/scrape";
 import { NextPage } from "next";
 import { useRef, useState } from "react";
 import Image from 'next/image'
-import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 
 
