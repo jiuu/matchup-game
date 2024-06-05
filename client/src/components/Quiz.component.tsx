@@ -5,7 +5,10 @@ import { useContext, useRef, useState } from "react";
 import { Question } from "./Question.component";
 import { QuizContext } from "@/context/Quiz.context";
 import { QuizContextType } from "@/types/quiz.types";
-import { Box, Modal } from "@mui/material";
+import { Box, IconButton, Modal, Tooltip } from "@mui/material";
+import { FinishModal } from "./FinishModal.component";
+import HelpIcon from '@mui/icons-material/Help';
+
 
 
 
@@ -37,16 +40,21 @@ export const Quiz = () => { //Component for rendering our quiz page
 
   return (
     <div style={{backgroundImage: 'url(/srbackground.png'}} className="bg-cover bg-center h-screen w-screen">
-      <div style={{ fontFamily: "math", position: "absolute"}}>Score: {score}</div>
+      <div style={{ fontFamily: "math", position: "absolute"}}>Score: {score} 
+        <Tooltip title="Based off">
+          <IconButton>
+            <HelpIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
+
       <Modal
         open={openModal}
         onClose={()=>setOpenModal(false)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box >
-          hey
-        </Box>
+        <FinishModal score={score}/>
       </Modal>
       <Question
         data = {quizData[questionIndex]}
