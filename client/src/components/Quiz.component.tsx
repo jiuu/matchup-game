@@ -18,6 +18,7 @@ export const Quiz = () => { //Component for rendering our quiz page
   const [score, setScore] = useState(0);
   const [opacity, setOpacity] = useState(1)
   const [openModal, setOpenModal] = useState(false);
+  const [isOver , setIsOver] = useState(false);
 
   const handleAnswer = (answer: boolean) => {
     if (opacity == 1) { //logic for fading images in and out and moving to next question
@@ -32,6 +33,7 @@ export const Quiz = () => { //Component for rendering our quiz page
         },500)
       } else {
         setOpenModal(true)
+        setIsOver(true)
       }
     
     }
@@ -40,9 +42,9 @@ export const Quiz = () => { //Component for rendering our quiz page
 
   return (
     <div style={{backgroundImage: 'url(/srbackground.png'}} className="bg-cover bg-center h-screen w-screen">
-      <div style={{ fontFamily: "math", position: "absolute"}}>Score: {score} 
-        <Tooltip title="Based off">
-          <IconButton>
+      <div style={{ fontFamily: "math", position: "absolute", padding: '8px'}}>Score: {score} 
+        <Tooltip title="Based off match win rate from Emerald rank and up">
+          <IconButton sx={{color:'white'}}>
             <HelpIcon />
           </IconButton>
         </Tooltip>
@@ -60,6 +62,7 @@ export const Quiz = () => { //Component for rendering our quiz page
         data = {quizData[questionIndex]}
         opacity = {opacity}
         onAnswerSelect = {handleAnswer}
+        isOver = {isOver}
       ></Question>
     </div>
   )
