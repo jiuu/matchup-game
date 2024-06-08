@@ -17,7 +17,9 @@ export const Quiz = () => { //Component for rendering our quiz page
   const {quizData, questionIndex, setQuestionIndex} = useContext(QuizContext) as QuizContextType
   const [score, setScore] = useState(0);
   const [opacity, setOpacity] = useState(1)
-  const [openModal, setOpenModal] = useState(false);
+  const [openStartModal, setOpenStartModal] = useState(true);
+
+  const [openFinishModal, setOpenFinishModal] = useState(false);
   const [isOver , setIsOver] = useState(false);
 
   const handleAnswer = (answer: boolean) => {
@@ -32,7 +34,7 @@ export const Quiz = () => { //Component for rendering our quiz page
           setOpacity(1);
         },500)
       } else {
-        setOpenModal(true)
+        setOpenFinishModal(true)
         setIsOver(true)
       }
     
@@ -51,13 +53,20 @@ export const Quiz = () => { //Component for rendering our quiz page
       </div>
 
       <Modal
-        open={openModal}
-        onClose={()=>setOpenModal(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        open={openStartModal}
+        onClose={()=>setOpenStartModal(false)}
+
       >
         <FinishModal score={score}/>
       </Modal>
+      <Modal
+        open={openFinishModal}
+        onClose={()=>setOpenFinishModal(false)}
+      >
+        <FinishModal score={score}/>
+      </Modal>
+
+      
       <Question
         data = {quizData[questionIndex]}
         opacity = {opacity}
