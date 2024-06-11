@@ -1,4 +1,3 @@
-import { dbManager } from "@/utils/dbManager";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
@@ -7,11 +6,9 @@ import {
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 import Matchup from "common/types/matchup.types";
-import { headers } from "next/headers";
 
 export default function Home() {
   console.log(process.env.TABLE_NAME);
-  const headersList = headers();
   console.log(process.env.VERCEL_URL);
 
   return (
