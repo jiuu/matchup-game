@@ -15,5 +15,6 @@ export async function PUT(req: Request) {
 export async function GET() {
 
   const response = await manager.getRandomMatchup();
+  console.log(response.Item)
   return NextResponse.json({data: response.Item});
 }

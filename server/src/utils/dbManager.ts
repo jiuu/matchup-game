@@ -38,13 +38,13 @@ export class dbManager{
         const command = new GetCommand({
           TableName: process.env.TABLE_NAME,
           Key: {
-            myChamp: "Malphite",
-            enemyChamp: "Olaf"
+            myChamp: "Draven",
+            enemyChamp: "Jinx"
           },
         });
         try {
           const response = await this.docClient.send(command);
-          console.log(response);
+          console.log(response.Item);
           return response;
         } catch (error) {
           console.log(error)
