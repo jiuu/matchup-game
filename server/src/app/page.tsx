@@ -7,11 +7,10 @@ import {
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 import Matchup from "common/types/matchup.types";
-import { headers } from "next/headers";
 
 export default function Home() {
   console.log(process.env.TABLE_NAME);
-  const headersList = headers();
+  console.log("hey");
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

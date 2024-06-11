@@ -29,6 +29,7 @@ export class dbManager{
           console.log(response );
           return response;
         } catch (error) {
+          console.log(error)
           throw error;
         }
       };
@@ -46,6 +47,7 @@ export class dbManager{
           console.log(response);
           return response;
         } catch (error) {
+          console.log(error)
           throw error;
         }
       };
