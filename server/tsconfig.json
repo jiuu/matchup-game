@@ -23,6 +23,6 @@
 
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/matchups/route.js", "src/app/api/matchups/route.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/matchups/route.js", "src/app/api/matchups/route.js", "../scrape/scrape.tsx"],
   "exclude": ["node_modules"]
 }

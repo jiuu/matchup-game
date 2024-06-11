@@ -25,8 +25,8 @@ export class dbManager{
           Item: matchup,
         });
         try {
-          const response = await this.docClient.send(command);
-          console.log(response);
+          let response = await this.docClient.send(command);
+          console.log(response );
           return response;
         } catch (error) {
           throw error;
@@ -44,7 +44,7 @@ export class dbManager{
         try {
           const response = await this.docClient.send(command);
           console.log(response);
-          return response.Item;
+          return response;
         } catch (error) {
           throw error;
         }

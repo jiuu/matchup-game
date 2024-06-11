@@ -8,8 +8,6 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import Matchup from "common/types/matchup.types";
 
-const manager = new dbManager();
-
 export default function Home() {
   console.log(process.env.TABLE_NAME);
 

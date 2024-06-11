@@ -1,20 +1,15 @@
 import Image from "next/image";
-import getMatchupData from "@/utils/scrape";
 import { revalidatePath } from "next/cache";
-import {Quiz} from "@/components/Quiz.component";
+import { Quiz } from "@/components/Quiz.component";
 import mock from "@/mocks/matchups";
 import { QuizProvider } from "@/context/Quiz.context";
 export default function Home() {
-  const matchupData = mock
+  const matchupData = mock;
   return (
     <QuizProvider>
       <div>
-        <Quiz/>
+        <Quiz />
       </div>
     </QuizProvider>
   );
 }
-
-
-
-  
