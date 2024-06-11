@@ -1,5 +1,5 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, GetCommand, PutCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 
 class dbManager{
     dbClient: DynamoDBClient;
@@ -35,17 +35,34 @@ class dbManager{
       };
 
     getRandomMatchup = async () => {
-        const command = new GetCommand({
+      let resArr = []
+
+      let call = await fetch(
+        "https://ddragon.leagueoflegends.com/cdn/14.10.1/data/en_US/champion.json"
+      );
+      let data = await call.json();
+      let champs = Object.keys(data.data); // Extracting champion names and sorting them
+      let randomChamp = champs[(Math.floor(Math.random() * champs.length))]
+      console.log(randomChamp)
+        const command = new QueryCommand({
           TableName: process.env.TABLE_NAME,
-          Key: {
-            myChamp: "Draven",
-            enemyChamp: "Jinx"
+          KeyConditionExpression: 'myChamp = :v1',
+
+          //Limit:1,
+          ScanIndexForward:false,
+          ExpressionAttributeValues: {
+            ":v1": 
+              randomChamp
+            ,
+
           },
         });
         try {
-          const response = await this.docClient.send(command);
-          console.log(response.Item);
-          return response;
+          
+          let response = await this.docClient.send(command);
+          
+          console.log(response.Items);
+          return response.Items?.[(Math.floor(Math.random() * 3))];
         } catch (error) {
           console.log(error)
           throw error;

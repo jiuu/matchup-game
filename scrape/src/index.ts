@@ -1,4 +1,3 @@
-import axios from "axios";
 import getMatchupData from "../utils/scrape";
 
 async function scrape(): Promise<void> {
@@ -15,7 +14,7 @@ async function scrape(): Promise<void> {
     let matchupData = await getMatchupData(champ);
     for (let matchup of matchupData) {
       console.log(matchup);
-      await fetch("http://localhost:3000/api/matchups", {method: "PUT", body: JSON.stringify(matchup)})
+      await fetch("https://matchup-game-server.vercel.app/api/matchups", {method: "PUT", body: JSON.stringify(matchup)})
     }
   }
 
