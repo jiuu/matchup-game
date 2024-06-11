@@ -1,8 +1,7 @@
-import { dbManager } from "@/utils/dbManager";
+import { manager } from "@/utils/dbManager";
 import { NextResponse } from "next/server";
 
 
-const manager = new dbManager();
 
 
 export async function PUT(req: Request) {

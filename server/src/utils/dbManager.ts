@@ -53,4 +53,6 @@ export class dbManager{
       };
 }
 
+export const manager = new dbManager()
+
 
