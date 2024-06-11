@@ -3,11 +3,11 @@ import { NextResponse } from "next/server";
 
 
 
-
+export const dynamic = 'force-dynamic'
 export async function PUT(req: Request) {
 
   const  messages  = await req.json();
-  const response = manager.createNewMatchup(messages);
+  const response = await manager.createNewMatchup(messages);
   return NextResponse.json({response});
 }
 
