@@ -12,7 +12,9 @@ export const QuizProvider: React.FC<{ children: React.ReactNode }> = ({
   const [quizData, setQuizData] = useState([]);
   useEffect(() => {
     async function fetchAPI() {
-      let res = await fetch("http://localhost:3000/api/matchups");
+      let res = await fetch(
+        "https://matchup-game-server.vercel.app/api/matchups"
+      );
       let posts = await res.json();
 
       setQuizData(posts.data);
