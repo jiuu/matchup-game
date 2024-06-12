@@ -18,6 +18,7 @@ export const Quiz = () => {
 
   const [openFinishModal, setOpenFinishModal] = useState(false);
   const [isOver, setIsOver] = useState(false);
+  const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
 
   const handleAnswer = (answer: boolean) => {
     if (opacity == 1) {
@@ -25,19 +26,23 @@ export const Quiz = () => {
       if (answer) {
         setScore(score + 1);
       }
-      if (questionIndex < 9) {
-        setOpacity(0);
 
+      setOpacity(0);
+
+      setTimeout(() => {
+        setQuestionIndex(questionIndex + 1);
         setTimeout(() => {
-          setQuestionIndex(questionIndex + 1);
-          setTimeout(() => {
-            setOpacity(1);
-          }, 200);
+          setOpacity(1);
         }, 500);
-      } else {
-        setOpenFinishModal(true);
-        setIsOver(true);
+      }, 500);
+      if (questionIndex % 10 == 8) {
+        fetchMatchups();
       }
+
+      // } else {
+      //   setOpenFinishModal(true);
+      //   setIsOver(true);
+      // }
     }
   };
 

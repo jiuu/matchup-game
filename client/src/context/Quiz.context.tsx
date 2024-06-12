@@ -10,21 +10,22 @@ export const QuizProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [quizData, setQuizData] = useState([]);
+  const fetchMatchups = async () => {
+    let res = await fetch(
+      "https://matchup-game-server.vercel.app/api/matchups"
+    );
+    let posts = await res.json();
+
+    setQuizData((q) => q.concat(posts.data));
+  };
   useEffect(() => {
-    async function fetchAPI() {
-      let res = await fetch(
-        "https://matchup-game-server.vercel.app/api/matchups"
-      );
-      let posts = await res.json();
-
-      setQuizData(posts.data);
-    }
-
-    fetchAPI();
+    fetchMatchups();
     console.log("trigger");
   }, []);
 
   return (
-    <QuizContext.Provider value={{ quizData }}>{children}</QuizContext.Provider>
+    <QuizContext.Provider value={{ quizData, fetchMatchups }}>
+      {children}
+    </QuizContext.Provider>
   );
 };
