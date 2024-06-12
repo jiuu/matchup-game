@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Question } from "./Question.component";
 import { QuizContext } from "@/context/Quiz.context";
 import { QuizContextType } from "common/types/quiz.types";
@@ -13,9 +13,10 @@ export const Quiz = () => {
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
   const [opacity, setOpacity] = useState(1);
   const [openStartModal, setOpenStartModal] = useState(false);
-
   const [openFinishModal, setOpenFinishModal] = useState(false);
   const [isOver, setIsOver] = useState(false);
   const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
@@ -24,36 +25,52 @@ export const Quiz = () => {
     if (opacity == 1) {
       //logic for fading images in and out and moving to next question
       if (answer) {
-        setScore(score + 1);
+        setScore((s) => s + 50 + streak * 10);
+        setStreak((s) => s + 1);
+      } else {
+        setLives((s) => s - 1);
+        setStreak(0);
       }
-
-      setOpacity(0);
-
-      setTimeout(() => {
-        setQuestionIndex(questionIndex + 1);
+      console.log(lives);
+      if (lives > 0) {
+        setOpacity(0);
         setTimeout(() => {
-          setOpacity(1);
+          setQuestionIndex((s) => s + 1);
+          setTimeout(() => {
+            setOpacity(1);
+          }, 500);
         }, 500);
-      }, 500);
-      if (questionIndex % 10 == 8) {
-        fetchMatchups();
+        if (questionIndex % 10 == 8) {
+          fetchMatchups();
+        }
+        if (questionIndex % 10 == 9) {
+          setLives((s) => s + 1);
+        }
       }
-
-      // } else {
-      //   setOpenFinishModal(true);
-      //   setIsOver(true);
-      // }
     }
   };
+  useEffect(() => {
+    if (lives <= 0) {
+      setOpenFinishModal(true);
+      setIsOver(true);
+    }
+  }, [lives]);
 
   return (
     <div
       style={{ backgroundImage: "url(/srbackground.png" }}
       className="bg-cover bg-center h-screen w-screen"
     >
-      <div style={{ fontFamily: "math", position: "absolute", padding: "8px" }}>
-        Score: {score}
-        <Tooltip title="Based off match win rate from Emerald rank and up">
+      <div
+        style={{
+          fontFamily: "math",
+          position: "absolute",
+          padding: "8px",
+          color: "white",
+        }}
+      >
+        Score: {score} | Lives: {lives} | Streak: {streak}
+        <Tooltip title="Earn more points based on streak count and get one life back every 10 questions! Based off match win rates from Emerald rank and up">
           <IconButton sx={{ color: "white" }}>
             <HelpIcon />
           </IconButton>
