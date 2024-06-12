@@ -3,22 +3,26 @@
 import Matchup from "common/types/matchup.types";
 import { Button } from "@mui/material";
 import Image from "next/image";
+import { useContext } from "react";
+import { QuizContextType } from "common/types/quiz.types";
+import { QuizContext } from "@/context/Quiz.context";
 
 export const Question = ({
-  data,
+  questionIndex,
   opacity,
   onAnswerSelect,
   isOver,
 }: {
-  data: Matchup;
+  questionIndex: number;
   opacity: number;
   onAnswerSelect: (answer: boolean) => void;
   isOver: boolean;
 }) => {
+  const { quizData } = useContext(QuizContext) as QuizContextType;
+  let data = quizData[questionIndex];
   //Component for rendering this Quiz items for our quiz
   const handleClick = (val: number) => {
-    val > 50 ? onAnswerSelect(true) : onAnswerSelect(false);
-    console.log(data);
+    val < 50 ? onAnswerSelect(true) : onAnswerSelect(false);
   };
 
   return (
@@ -30,7 +34,7 @@ export const Question = ({
         sx={{ mt: 8 }}
       >
         <Image
-          src={`/champions/${data.myChamp}_0.jpg`}
+          src={`/champions/${data?.myChamp}_0.jpg`}
           width={200}
           height={500}
           alt="My Champion"
@@ -44,7 +48,7 @@ export const Question = ({
         sx={{ mb: 8 }}
       >
         <Image
-          src={`/champions/${data.enemyChamp}_0.jpg`}
+          src={`/champions/${data?.enemyChamp}_0.jpg`}
           width={200}
           height={500}
           alt="Enemy Champion"

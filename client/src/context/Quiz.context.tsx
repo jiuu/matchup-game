@@ -9,16 +9,20 @@ export const QuizContext = createContext<QuizContextType | null>(null);
 export const QuizProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [quizData, setQuizData] = useState<Matchup[]>(mock);
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [quizData, setQuizData] = useState([]);
   useEffect(() => {
-    // Simulate a user login process
-    setQuizData(mock);
+    async function fetchAPI() {
+      let res = await fetch("http://localhost:3000/api/matchups");
+      let posts = await res.json();
+
+      setQuizData(posts.data);
+    }
+
+    fetchAPI();
+    console.log("trigger");
   }, []);
 
   return (
-    <QuizContext.Provider value={{ quizData, questionIndex, setQuestionIndex }}>
-      {children}
-    </QuizContext.Provider>
+    <QuizContext.Provider value={{ quizData }}>{children}</QuizContext.Provider>
   );
 };

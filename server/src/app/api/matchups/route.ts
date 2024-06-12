@@ -18,7 +18,14 @@ export async function PUT(req: Request) {
 export async function GET() {
 
 
+  let resArr = []
+  for (let i = 0; i < 10 ; i++) {
+    const response = await manager.getRandomMatchup();
 
-  const response = await manager.getRandomMatchup();
-  return NextResponse.json({data: response});
+    resArr.push(response)
+  }
+  let nextRes = NextResponse.json({data: resArr})
+  nextRes.headers.append('Access-Control-Allow-Origin', '*')
+
+  return nextRes;
 }

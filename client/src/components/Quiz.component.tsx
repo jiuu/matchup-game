@@ -10,12 +10,11 @@ import HelpIcon from "@mui/icons-material/Help";
 export const Quiz = () => {
   //Component for rendering our quiz page
   //const matchupData = await getMatchupData('malphite', 'sylas', 'top');
-  const { quizData, questionIndex, setQuestionIndex } = useContext(
-    QuizContext
-  ) as QuizContextType;
+
+  const [questionIndex, setQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [opacity, setOpacity] = useState(1);
-  const [openStartModal, setOpenStartModal] = useState(true);
+  const [openStartModal, setOpenStartModal] = useState(false);
 
   const [openFinishModal, setOpenFinishModal] = useState(false);
   const [isOver, setIsOver] = useState(false);
@@ -26,7 +25,7 @@ export const Quiz = () => {
       if (answer) {
         setScore(score + 1);
       }
-      if (questionIndex < quizData.length - 1) {
+      if (questionIndex < 9) {
         setOpacity(0);
         setTimeout(() => {
           setQuestionIndex(questionIndex + 1);
@@ -61,7 +60,7 @@ export const Quiz = () => {
       </Modal>
 
       <Question
-        data={quizData[questionIndex]}
+        questionIndex={questionIndex}
         opacity={opacity}
         onAnswerSelect={handleAnswer}
         isOver={isOver}
