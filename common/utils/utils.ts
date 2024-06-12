@@ -1,8 +1,8 @@
 import Matchup from "../types/matchup.types";
 
 export function convertMatchup(
-  myChamp: String,
-  role: String,
+  myChamp: string,
+  role: string,
   matchupData: string[]
 ): Matchup {
   let enemyChamp = matchupData[0].replace(/['. ]/g, "");

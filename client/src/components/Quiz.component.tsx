@@ -27,9 +27,12 @@ export const Quiz = () => {
       }
       if (questionIndex < 9) {
         setOpacity(0);
+
         setTimeout(() => {
           setQuestionIndex(questionIndex + 1);
-          setOpacity(1);
+          setTimeout(() => {
+            setOpacity(1);
+          }, 200);
         }, 500);
       } else {
         setOpenFinishModal(true);

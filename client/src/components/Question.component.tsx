@@ -37,7 +37,7 @@ export const Question = ({
           src={`/champions/${data?.myChamp}_0.jpg`}
           width={200}
           height={500}
-          alt="My Champion"
+          alt={data?.myChamp || "My Champion"}
           style={{ opacity: opacity }}
           className={`transition-opacity duration-500 ease-out `}
         ></Image>
@@ -51,7 +51,7 @@ export const Question = ({
           src={`/champions/${data?.enemyChamp}_0.jpg`}
           width={200}
           height={500}
-          alt="Enemy Champion"
+          alt={data?.enemyChamp || "Enemy Champion"}
           style={{ opacity: opacity }}
           className={` transition-opacity duration-500 ease-out `}
         ></Image>

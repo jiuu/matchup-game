@@ -20,8 +20,11 @@ export async function GET() {
 
   let resArr = []
   for (let i = 0; i < 10 ; i++) {
-    const response = await manager.getRandomMatchup();
-
+    let response = await manager.getRandomMatchup();
+    if (Math.random() > 0.5) {
+      let placeholder = response?.myChamp
+      response = {...response, myChamp: response?.enemyChamp, enemyChamp: placeholder, winRate: 100 - response?.winRate}
+    }
     resArr.push(response)
   }
   let nextRes = NextResponse.json({data: resArr})

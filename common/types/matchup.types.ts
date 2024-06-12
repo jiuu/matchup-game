@@ -2,8 +2,8 @@
 
 
 interface Matchup {
-    myChamp?: String
-    enemyChamp?: String
+    myChamp?: string
+    enemyChamp?: string
     winRate?: number
     numOfGames?: number
     role?: String
