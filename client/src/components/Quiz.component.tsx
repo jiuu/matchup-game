@@ -31,23 +31,17 @@ export const Quiz = () => {
         setLives((s) => s - 1);
         setStreak(0);
       }
-      console.log(lives);
-      if (lives > 0) {
-        setOpacity(0);
-        setTimeout(() => {
-          setQuestionIndex((s) => s + 1);
-          setTimeout(() => {
-            setOpacity(1);
-          }, 500);
-        }, 500);
-        if (questionIndex % 10 == 8) {
-          fetchMatchups();
-        }
-        if (questionIndex % 10 == 9) {
-          setLives((s) => s + 1);
-        }
-      }
+      handleQuestionTransition();
     }
+  };
+  const handleQuestionTransition = () => {
+    setOpacity(0);
+    setTimeout(() => {
+      setQuestionIndex((s) => s + 1);
+    }, 500);
+    setTimeout(() => {
+      setOpacity(1);
+    }, 1000);
   };
   useEffect(() => {
     if (lives <= 0) {
@@ -55,6 +49,15 @@ export const Quiz = () => {
       setIsOver(true);
     }
   }, [lives]);
+
+  useEffect(() => {
+    if (questionIndex % 10 == 8) {
+      fetchMatchups();
+    }
+    if (questionIndex % 10 == 9) {
+      setLives((s) => s + 1);
+    }
+  }, [questionIndex, fetchMatchups]);
 
   return (
     <div
@@ -69,7 +72,7 @@ export const Quiz = () => {
           color: "white",
         }}
       >
-        Score: {score} | Lives: {lives} | Streak: {streak}
+        Score: {score} | Lives: {lives}| Streak: {streak}
         <Tooltip title="Earn more points based on streak count and get one life back every 10 questions! Based off match win rates from Emerald rank and up">
           <IconButton sx={{ color: "white" }}>
             <HelpIcon />

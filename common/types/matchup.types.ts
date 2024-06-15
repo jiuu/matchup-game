@@ -6,7 +6,7 @@ interface Matchup {
     enemyChamp?: string
     winRate?: number
     numOfGames?: number
-    role?: String
+    role?: string
 }
 
 export default Matchup;
