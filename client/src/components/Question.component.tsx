@@ -27,8 +27,6 @@ export const Question = ({
     val < 50 ? onAnswerSelect(true) : onAnswerSelect(false);
   };
 
-  const oneWayTransition = {};
-
   return (
     //format received matchup data into quiz, can divide page up in half with each champion portrait
     <div className="flex flex-col items-center justify-evenly h-screen w-screen">

@@ -1,15 +1,8 @@
 "use client";
 
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import mock from "@/mocks/matchups";
-import { QuizContextType } from "common/types/quiz.types";
-import Matchup from "common/types/matchup.types";
+import { QuizContextType } from "@/utils/quiz.types";
 export const QuizContext = createContext<QuizContextType | null>(null);
 
 export const QuizProvider: React.FC<{ children: React.ReactNode }> = ({
