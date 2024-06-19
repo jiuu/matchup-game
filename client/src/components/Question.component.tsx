@@ -1,20 +1,22 @@
 "use client";
 
 import Matchup from "common/types/matchup.types";
-import { Button, Skeleton } from "@mui/material";
+import { Box, Button, Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useContext } from "react";
-import { QuizContextType } from "common/types/quiz.types";
+import { QuizContextType } from "@/utils/quiz.types";
 import { QuizContext } from "@/context/Quiz.context";
 
 export const Question = ({
   questionIndex,
-  opacity,
+  infoOpacity,
+  imageOpacity,
   onAnswerSelect,
   isOver,
 }: {
   questionIndex: number;
-  opacity: number;
+  infoOpacity: number;
+  imageOpacity: number;
   onAnswerSelect: (answer: boolean) => void;
   isOver: boolean;
 }) => {
@@ -24,6 +26,8 @@ export const Question = ({
   const handleClick = (val: number) => {
     val < 50 ? onAnswerSelect(true) : onAnswerSelect(false);
   };
+
+  const oneWayTransition = {};
 
   return (
     //format received matchup data into quiz, can divide page up in half with each champion portrait
@@ -40,7 +44,7 @@ export const Question = ({
             width={200}
             height={500}
             alt={data?.myChamp || "My Champion"}
-            style={{ opacity: opacity }}
+            style={{ opacity: imageOpacity }}
             className={`transition-opacity duration-500 ease-out `}
           ></Image>
         </Button>
@@ -59,12 +63,14 @@ export const Question = ({
           width={30}
           height={30}
           alt={data?.role || "Role"}
-          style={{ opacity: opacity }}
-          className={`transition-opacity duration-500 ease-out `}
+          style={{ opacity: imageOpacity }}
+          objectPosition="absolute"
+          className={`transition-opacity duration-500 ease-out mx-4 `}
         />
       ) : (
         <Skeleton variant="rectangular" width={30} height={30} />
       )}
+
       {quizData?.length ? (
         <Button
           onClick={() => handleClick(100 - (data.winRate || 0))}
@@ -77,7 +83,7 @@ export const Question = ({
             width={200}
             height={500}
             alt={data?.enemyChamp || "Enemy Champion"}
-            style={{ opacity: opacity }}
+            style={{ opacity: imageOpacity }}
             className={` transition-opacity duration-500 ease-out `}
           ></Image>
         </Button>

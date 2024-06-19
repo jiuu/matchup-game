@@ -2,9 +2,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { Question } from "./Question.component";
 import { QuizContext } from "@/context/Quiz.context";
-import { QuizContextType } from "common/types/quiz.types";
+import { QuizContextType } from "@/utils/quiz.types";
 import { Box, IconButton, Modal, Tooltip } from "@mui/material";
 import { FinishModal } from "./FinishModal.component";
+import { StartModal } from "./StartModal.component";
+import { useScore } from "@/hooks/useScore";
 import HelpIcon from "@mui/icons-material/Help";
 
 export const Quiz = () => {
@@ -12,40 +14,51 @@ export const Quiz = () => {
   //const matchupData = await getMatchupData('malphite', 'sylas', 'top');
 
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [lives, setLives] = useState(3);
-  const [streak, setStreak] = useState(0);
-  const [opacity, setOpacity] = useState(1);
-  const [openStartModal, setOpenStartModal] = useState(false);
-  const [openFinishModal, setOpenFinishModal] = useState(false);
+  const [lives, setLives] = useState(5);
+  const [imageOpacity, setImageOpacity] = useState(1);
+  const [infoOpacity, setInfoOpacity] = useState(0);
+  const [lifeRed, setLifeRed] = useState(false);
+  const [openModal, setOpenModal] = useState(1); //0 for close, 1 for Start, 2 for Finish
   const [isOver, setIsOver] = useState(false);
   const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
 
+  const { score, streak, handleCorrectAnswer, resetStreak } = useScore();
+
   const handleAnswer = (answer: boolean) => {
-    if (opacity == 1) {
-      //logic for fading images in and out and moving to next question
+    if (imageOpacity == 1) {
+      //handle answer when transition is not happening
       if (answer) {
-        setScore((s) => s + 50 + streak * 10);
-        setStreak((s) => s + 1);
+        handleCorrectAnswer();
       } else {
         setLives((s) => s - 1);
-        setStreak(0);
+        resetStreak();
+        handleColorTransition();
       }
       handleQuestionTransition();
     }
   };
+  const handleColorTransition = () => {
+    setLifeRed(true);
+    setTimeout(() => {
+      setLifeRed(false);
+    }, 200);
+  };
   const handleQuestionTransition = () => {
-    setOpacity(0);
+    //note: we have separate states for info and image opacity as we want their opacities to change at different moments.
+    //For example, having the info opacity change too late would give the next answer away
+    setImageOpacity(0);
+
     setTimeout(() => {
       setQuestionIndex((s) => s + 1);
     }, 500);
     setTimeout(() => {
-      setOpacity(1);
+      setImageOpacity(1);
     }, 1000);
   };
+
   useEffect(() => {
     if (lives <= 0) {
-      setOpenFinishModal(true);
+      setOpenModal(2);
       setIsOver(true);
     }
   }, [lives]);
@@ -54,9 +67,9 @@ export const Quiz = () => {
     if (questionIndex % 10 == 8) {
       fetchMatchups();
     }
-    if (questionIndex % 10 == 9) {
+    /*if (questionIndex % 10 == 9) {
       setLives((s) => s + 1);
-    }
+    }*/
   }, [questionIndex, fetchMatchups]);
 
   return (
@@ -69,27 +82,33 @@ export const Quiz = () => {
           fontFamily: "math",
           position: "absolute",
           padding: "8px",
-          color: "white",
         }}
       >
-        Score: {score} | Lives: {lives}| Streak: {streak}
-        <Tooltip title="Earn more points based on streak count and get one life back every 10 questions! Based off match win rates from Emerald rank and up">
-          <IconButton sx={{ color: "white" }}>
-            <HelpIcon />
-          </IconButton>
-        </Tooltip>
+        <Box
+          className={`transition-color duration-200 ease-out ${
+            lifeRed ? "text-red-700" : "text-white"
+          } `}
+        >
+          Score: {score} | Lives: {lives} | Streak: {streak}
+          <Tooltip title="Earn more points based on streak count! Based off global match data from Emerald rank and up">
+            <IconButton sx={{ color: "white" }} onClick={() => setOpenModal(1)}>
+              <HelpIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </div>
 
-      <Modal open={openStartModal} onClose={() => setOpenStartModal(false)}>
-        <FinishModal score={score} />
+      <Modal open={openModal == 1} onClose={() => setOpenModal(0)}>
+        <StartModal />
       </Modal>
-      <Modal open={openFinishModal} onClose={() => setOpenFinishModal(false)}>
+      <Modal open={openModal == 2} onClose={() => setOpenModal(0)}>
         <FinishModal score={score} />
       </Modal>
 
       <Question
         questionIndex={questionIndex}
-        opacity={opacity}
+        infoOpacity={infoOpacity}
+        imageOpacity={imageOpacity}
         onAnswerSelect={handleAnswer}
         isOver={isOver}
       ></Question>
