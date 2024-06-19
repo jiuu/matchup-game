@@ -5,9 +5,10 @@ import useSound from "use-sound";
 export const useScore = () => {
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [playSnap] = useSound("/audio/snap.mp3",{volume:0.2});
-  const [playFaker] = useSound("/audio/faker.mp3",{volume:0.2});
-  const [playPentakill] = useSound("/audio/pentakill.mp3",{volume:0.3});
+  const [mute, setMute] = useState(false)
+  const [playSnap] = useSound("/audio/snap.mp3",{volume:0.1, soundEnabled:!mute});
+  const [playFaker] = useSound("/audio/faker.mp3",{volume:0.2, soundEnabled:true});
+  const [playPentakill] = useSound("/audio/pentakill.mp3",{volume:0.2, soundEnabled:true});
 
   const handleCorrectAnswer = () => {
     setScore((s) => s + 50 + streak * 10);
@@ -25,5 +26,5 @@ export const useScore = () => {
     setStreak(0);
   };
 
-  return { score, streak, handleCorrectAnswer, resetStreak };
+  return { score, streak, mute, handleCorrectAnswer, resetStreak, setMute };
 };

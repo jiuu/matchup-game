@@ -62,7 +62,7 @@ class dbManager{
           let response = await this.docClient.send(command);
           
           console.log(response.Items);
-          return response.Items?.[(Math.floor(Math.random() * 3))];
+          return response.Items?.[(Math.floor(Math.random() * response.Items?.length))];
         } catch (error) {
           console.log(error)
           throw error;

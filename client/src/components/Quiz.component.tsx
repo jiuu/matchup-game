@@ -8,6 +8,8 @@ import { FinishModal } from "./FinishModal.component";
 import { StartModal } from "./StartModal.component";
 import { useScore } from "@/hooks/useScore";
 import HelpIcon from "@mui/icons-material/Help";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 
 export const Quiz = () => {
   //Component for rendering our quiz page
@@ -16,13 +18,13 @@ export const Quiz = () => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [lives, setLives] = useState(5);
   const [imageOpacity, setImageOpacity] = useState(1);
-  const [infoOpacity, setInfoOpacity] = useState(0);
   const [lifeRed, setLifeRed] = useState(false);
   const [openModal, setOpenModal] = useState(1); //0 for close, 1 for Start, 2 for Finish
   const [isOver, setIsOver] = useState(false);
   const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
 
-  const { score, streak, handleCorrectAnswer, resetStreak } = useScore();
+  const { score, streak, mute, handleCorrectAnswer, resetStreak, setMute } =
+    useScore();
 
   const handleAnswer = (answer: boolean) => {
     if (imageOpacity == 1) {
@@ -77,26 +79,40 @@ export const Quiz = () => {
       style={{ backgroundImage: "url(/srbackground.png" }}
       className="bg-cover bg-center h-screen w-screen"
     >
-      <div
-        style={{
+      <Box
+        sx={{
           fontFamily: "math",
-          position: "absolute",
-          padding: "8px",
         }}
+        className={"flex p-2 absolute"}
       >
         <Box
-          className={`transition-color duration-200 ease-out ${
+          className={`flex pr-2 items-center transition-color duration-200 ease-out ${
             lifeRed ? "text-red-700" : "text-white"
           } `}
         >
           Score: {score} | Lives: {lives} | Streak: {streak}
-          <Tooltip title="Earn more points based on streak count! Based off global match data from Emerald rank and up">
-            <IconButton sx={{ color: "white" }} onClick={() => setOpenModal(1)}>
-              <HelpIcon />
-            </IconButton>
-          </Tooltip>
         </Box>
-      </div>
+        <Tooltip title="Earn more points based on streak count! Based off global match data from Emerald rank and up">
+          <IconButton sx={{ color: "white" }} onClick={() => setOpenModal(1)}>
+            <HelpIcon />
+          </IconButton>
+        </Tooltip>
+        {mute ? (
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => setMute((s) => !s)}
+          >
+            <VolumeOffIcon />
+          </IconButton>
+        ) : (
+          <IconButton
+            sx={{ color: "white" }}
+            onClick={() => setMute((s) => !s)}
+          >
+            <VolumeUpIcon />
+          </IconButton>
+        )}
+      </Box>
 
       <Modal open={openModal == 1} onClose={() => setOpenModal(0)}>
         <StartModal />
@@ -107,7 +123,6 @@ export const Quiz = () => {
 
       <Question
         questionIndex={questionIndex}
-        infoOpacity={infoOpacity}
         imageOpacity={imageOpacity}
         onAnswerSelect={handleAnswer}
         isOver={isOver}

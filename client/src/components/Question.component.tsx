@@ -9,13 +9,11 @@ import { QuizContext } from "@/context/Quiz.context";
 
 export const Question = ({
   questionIndex,
-  infoOpacity,
   imageOpacity,
   onAnswerSelect,
   isOver,
 }: {
   questionIndex: number;
-  infoOpacity: number;
   imageOpacity: number;
   onAnswerSelect: (answer: boolean) => void;
   isOver: boolean;

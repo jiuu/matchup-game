@@ -9,7 +9,7 @@ export const StartModal = () => {
     height: 200,
     width: 700,
     boxShadow: 24,
-    bgcolor: "slategrey",
+    bgcolor: "dimgrey",
     opacity: 0.9,
     p: "2rem 3rem",
     borderRadius: 4,
