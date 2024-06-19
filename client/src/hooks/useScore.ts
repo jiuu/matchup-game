@@ -1,4 +1,5 @@
 import { useState } from "react";
+//@ts-ignore TypeScript bug with use-sound
 import useSound from "use-sound";
 
 export const useScore = () => {
