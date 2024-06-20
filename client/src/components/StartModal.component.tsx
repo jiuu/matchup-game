@@ -1,6 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
-export const StartModal = () => {
+export const StartModal = ({ handleClick }: { handleClick: () => void }) => {
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -9,7 +9,8 @@ export const StartModal = () => {
     height: 200,
     width: 700,
     boxShadow: 24,
-    bgcolor: "dimgrey",
+
+    bgcolor: "slategrey",
     opacity: 0.9,
     p: "2rem 3rem",
     borderRadius: 4,
@@ -26,6 +27,23 @@ export const StartModal = () => {
           a champion to win a matchup if they have a positive winrate when
           matched up against each other in the indicated role.
         </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            size="small"
+            disableTouchRipple
+            onClick={() => {
+              handleClick();
+            }}
+            sx={{ color: "silver" }}
+          >
+            Do not show again
+          </Button>
+        </Box>
       </Box>
     </div>
   );

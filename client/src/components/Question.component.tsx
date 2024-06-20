@@ -27,7 +27,7 @@ export const Question = ({
 
   return (
     //format received matchup data into quiz, can divide page up in half with each champion portrait
-    <div className="flex flex-col items-center justify-evenly h-screen w-screen">
+    <div className="flex flex-col items-center justify-center h-screen w-screen">
       {quizData?.length ? (
         <Button
           onClick={() => handleClick(data.winRate || 0)}
@@ -38,7 +38,7 @@ export const Question = ({
           <Image
             src={`/champions/${data?.myChamp}_0.jpg`}
             width={200}
-            height={500}
+            height={363}
             alt={data?.myChamp || "My Champion"}
             style={{ opacity: imageOpacity }}
             className={`transition-opacity duration-500 ease-out `}
@@ -48,7 +48,7 @@ export const Question = ({
         <Skeleton
           variant="rectangular"
           width={200}
-          height={500}
+          height={363}
           sx={{ margin: 1, mt: 8 }}
         />
       )}
@@ -61,10 +61,15 @@ export const Question = ({
           alt={data?.role || "Role"}
           style={{ opacity: imageOpacity }}
           objectPosition="absolute"
-          className={`transition-opacity duration-500 ease-out mx-4 `}
+          className={`transition-opacity duration-500 ease-out mx-4 my-4`}
         />
       ) : (
-        <Skeleton variant="rectangular" width={30} height={30} />
+        <Skeleton
+          variant="rectangular"
+          width={30}
+          height={30}
+          className={"my-4"}
+        />
       )}
 
       {quizData?.length ? (
@@ -77,7 +82,7 @@ export const Question = ({
           <Image
             src={`/champions/${data?.enemyChamp}_0.jpg`}
             width={200}
-            height={500}
+            height={363}
             alt={data?.enemyChamp || "Enemy Champion"}
             style={{ opacity: imageOpacity }}
             className={` transition-opacity duration-500 ease-out `}
@@ -87,7 +92,7 @@ export const Question = ({
         <Skeleton
           variant="rectangular"
           width={200}
-          height={500}
+          height={363}
           sx={{ margin: 1, mb: 8 }}
         />
       )}

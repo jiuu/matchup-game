@@ -19,13 +19,17 @@ export const Quiz = () => {
   const [lives, setLives] = useState(5);
   const [imageOpacity, setImageOpacity] = useState(1);
   const [lifeRed, setLifeRed] = useState(false);
-  const [openModal, setOpenModal] = useState(1); //0 for close, 1 for Start, 2 for Finish
+  const [openModal, setOpenModal] = useState(0); //0 for close, 1 for Start, 2 for Finish
   const [isOver, setIsOver] = useState(false);
+
   const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
 
-  const { score, streak, mute, handleCorrectAnswer, resetStreak, setMute } =
+  const { score, streak, mute, handleCorrectAnswer, resetStreak, toggleMute } =
     useScore();
-
+  const handleHide = () => {
+    setOpenModal(0);
+    localStorage.setItem("hide", "true");
+  };
   const handleAnswer = (answer: boolean) => {
     if (imageOpacity == 1) {
       //handle answer when transition is not happening
@@ -73,6 +77,9 @@ export const Quiz = () => {
       setLives((s) => s + 1);
     }*/
   }, [questionIndex, fetchMatchups]);
+  useEffect(() => {
+    setOpenModal(localStorage?.getItem("hide") === "true" ? 0 : 1);
+  }, []);
 
   return (
     <div
@@ -98,24 +105,18 @@ export const Quiz = () => {
           </IconButton>
         </Tooltip>
         {mute ? (
-          <IconButton
-            sx={{ color: "white" }}
-            onClick={() => setMute((s) => !s)}
-          >
+          <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
             <VolumeOffIcon />
           </IconButton>
         ) : (
-          <IconButton
-            sx={{ color: "white" }}
-            onClick={() => setMute((s) => !s)}
-          >
+          <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
             <VolumeUpIcon />
           </IconButton>
         )}
       </Box>
 
       <Modal open={openModal == 1} onClose={() => setOpenModal(0)}>
-        <StartModal />
+        <StartModal handleClick={handleHide} />
       </Modal>
       <Modal open={openModal == 2} onClose={() => setOpenModal(0)}>
         <FinishModal score={score} />

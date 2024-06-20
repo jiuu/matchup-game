@@ -1,5 +1,8 @@
+import { QuizContext } from "@/context/Quiz.context";
+import { QuizContextType } from "@/utils/quiz.types";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
+import { useContext } from "react";
 
 export const FinishModal = ({ score }: { score: number }) => {
   const modalStyle = {
@@ -9,7 +12,7 @@ export const FinishModal = ({ score }: { score: number }) => {
     transform: "translate(-50%, -50%)",
     height: 180,
     boxShadow: 24,
-    bgcolor: "dimgrey",
+    bgcolor: "slategrey",
     opacity: 0.9,
     p: "1.5rem 3rem",
     borderRadius: 4,
@@ -35,6 +38,9 @@ export const FinishModal = ({ score }: { score: number }) => {
     rank = "challenger";
   }
 
+  const { quizData } = useContext(QuizContext) as QuizContextType;
+  console.log(quizData);
+
   return (
     <div>
       <Box sx={modalStyle}>
@@ -44,6 +50,7 @@ export const FinishModal = ({ score }: { score: number }) => {
         <Typography id="modal-modal-description" sx={{ mt: 2 }}>
           Your final score is {score}.
         </Typography>
+
         <Image
           src={`/rank/${rank}.svg`}
           alt={"Rank"}
