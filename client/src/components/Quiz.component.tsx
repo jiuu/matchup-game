@@ -15,12 +15,13 @@ export const Quiz = () => {
   //Component for rendering our quiz page
   //const matchupData = await getMatchupData('malphite', 'sylas', 'top');
 
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [lives, setLives] = useState(5);
-  const [imageOpacity, setImageOpacity] = useState(1);
-  const [lifeRed, setLifeRed] = useState(false);
-  const [openModal, setOpenModal] = useState(0); //0 for close, 1 for Start, 2 for Finish
-  const [isOver, setIsOver] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState<number>(0); //possibly unnecessary as can derive ques index from answers state, but keeping it in for readability
+  const [lives, setLives] = useState<number>(5);
+  const [imageOpacity, setImageOpacity] = useState<number>(1);
+  const [lifeRed, setLifeRed] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<number>(0); //0 for close, 1 for Start, 2 for Finish
+  const [isOver, setIsOver] = useState<boolean>(false);
+  const [answers, setAnswers] = useState<boolean[]>([]);
 
   const { fetchMatchups } = useContext(QuizContext) as QuizContextType;
 
@@ -32,7 +33,8 @@ export const Quiz = () => {
   };
   const handleAnswer = (answer: boolean) => {
     if (imageOpacity == 1) {
-      //handle answer when transition is not happening
+      //handle answer only when transition is not happening
+      setAnswers([...answers, answer]);
       if (answer) {
         handleCorrectAnswer();
       } else {
@@ -119,7 +121,7 @@ export const Quiz = () => {
         <StartModal handleClick={handleHide} />
       </Modal>
       <Modal open={openModal == 2} onClose={() => setOpenModal(0)}>
-        <FinishModal score={score} />
+        <FinishModal score={score} answers={answers} />
       </Modal>
 
       <Question

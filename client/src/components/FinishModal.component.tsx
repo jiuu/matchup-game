@@ -1,16 +1,21 @@
 import { QuizContext } from "@/context/Quiz.context";
 import { QuizContextType } from "@/utils/quiz.types";
-import { Box, Typography } from "@mui/material";
+import { Box, Pagination, Typography } from "@mui/material";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
-export const FinishModal = ({ score }: { score: number }) => {
+export const FinishModal = ({
+  score,
+  answers,
+}: {
+  score: number;
+  answers: boolean[];
+}) => {
   const modalStyle = {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    height: 180,
     boxShadow: 24,
     bgcolor: "slategrey",
     opacity: 0.9,
@@ -37,27 +42,82 @@ export const FinishModal = ({ score }: { score: number }) => {
   } else {
     rank = "challenger";
   }
-
+  const [page, setPage] = useState(1);
   const { quizData } = useContext(QuizContext) as QuizContextType;
-  console.log(quizData);
+  const handleChangePage = (
+    _event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
+    setPage(newPage);
+  };
 
+  let results = answers.map((value, index) => {
+    return {
+      myChamp: quizData[index].myChamp,
+      enemyChamp: quizData[index].enemyChamp,
+      role: quizData[index].role,
+      numOfGames: quizData[index].numOfGames,
+      winRate: quizData[index].winRate,
+      correct: value,
+    };
+  });
+  let paginatedData = results.slice((page - 1) * 5, page * 5);
   return (
     <div>
       <Box sx={modalStyle}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Finished!
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          Your final score is {score}.
-        </Typography>
-
         <Image
           src={`/rank/${rank}.svg`}
           alt={"Rank"}
           width={50}
           height={50}
-          className="mx-auto mt-6"
+          className="mx-auto mb-6"
         ></Image>
+        {/* <Typography id="modal-modal-title" variant="h6" component="h2">
+          Finished!
+        </Typography> */}
+        <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+          Final score : {score}
+        </Typography>
+        <table className="mx-auto">
+          <thead>
+            <tr>
+              <th className="px-5">Your Champ</th>
+              <th className="px-5">Enemy Champ</th>{" "}
+              <th className="px-5">Win Rate</th>{" "}
+              <th className="px-5">Answer</th>
+              <th className="px-5">Role</th>
+              <th className="px-5">Num of Games</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedData.map((data, index) => (
+              <tr key={index}>
+                <td>{data?.myChamp}</td>
+                <td>{data?.enemyChamp}</td>{" "}
+                <td>{100 - (data?.winRate as number)}</td>{" "}
+                <td>{data?.correct ? "Correct" : "Wrong"}</td>
+                <td>{data?.role}</td>
+                <td>{data?.numOfGames}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>
+                <Pagination
+                  count={Math.ceil(answers.length / 5)}
+                  page={page}
+                  onChange={handleChangePage}
+                  sx={{
+                    "& .MuiPaginationItem-root": {
+                      color: "white",
+                    },
+                  }}
+                />
+              </td>
+            </tr>
+          </tfoot>
+        </table>
       </Box>
     </div>
   );
