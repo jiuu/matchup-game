@@ -19,13 +19,16 @@ export async function GET() {
 
 
   let resArr = []
-  for (let i = 0; i < 10 ; i++) {
+  while (resArr.length < 10) {
     let response = await manager.getRandomMatchup();
-    if (Math.random() > 0.5) {
-      let placeholder = response?.myChamp
-      response = {...response, myChamp: response?.enemyChamp, enemyChamp: placeholder, winRate: 100 - response?.winRate}
+    if (response?.winRate > 0.52 && response?.numOfGames > 300) {
+      if (Math.random() > 0.5) {
+        let placeholder = response?.myChamp
+        response = {...response, myChamp: response?.enemyChamp, enemyChamp: placeholder, winRate: 100 - response?.winRate}
+      }
+      resArr.push(response)
     }
-    resArr.push(response)
+
   }
   let nextRes = NextResponse.json({data: resArr})
   nextRes.headers.append('Access-Control-Allow-Origin', '*')
