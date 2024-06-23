@@ -26,8 +26,6 @@ export default function RootLayout({
           <body className={inter.className}>{children}</body>
         </ThemeProvider>
       </AppRouterCacheProvider>
-      <Analytics />
-      <SpeedInsights />
     </html>
   );
 }

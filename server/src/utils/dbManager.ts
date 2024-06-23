@@ -62,7 +62,7 @@ class dbManager{
             
             let response = await this.docClient.send(command);
             let randomMatchup = response.Items?.[(Math.floor(Math.random() * response.Items?.length))]
-            if (randomMatchup?.winRate > 52 && randomMatchup?.numOfGames > 300) {
+            if (randomMatchup?.winRate > 54 && randomMatchup?.numOfGames > 300) {
               if (Math.random() > 0.5) {
                 let placeholder = randomMatchup?.myChamp
                 randomMatchup = {...randomMatchup, myChamp: randomMatchup?.enemyChamp, enemyChamp: placeholder, winRate: 100 - randomMatchup?.winRate}

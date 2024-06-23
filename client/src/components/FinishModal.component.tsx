@@ -1,6 +1,6 @@
 import { QuizContext } from "@/context/Quiz.context";
 import { QuizContextType } from "@/utils/quiz.types";
-import { Box, Pagination, Typography } from "@mui/material";
+import { Box, Button, Pagination, Typography } from "@mui/material";
 import Image from "next/image";
 import { useContext, useState } from "react";
 
@@ -122,6 +122,13 @@ export const FinishModal = ({
                     },
                   }}
                 />
+                <Button
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                >
+                  Try again
+                </Button>
               </td>
             </tr>
           </tfoot>

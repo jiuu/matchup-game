@@ -101,26 +101,40 @@ export const Quiz = () => {
         >
           Score: {score} | Lives: {lives} | Streak: {streak}
         </Box>
-        <Tooltip title="Earn more points based on streak count! Based off global match data from Emerald rank and up">
+        <Tooltip title="Info">
           <IconButton sx={{ color: "white" }} onClick={() => setOpenModal(1)}>
             <HelpIcon />
           </IconButton>
         </Tooltip>
         {mute ? (
-          <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
-            <VolumeOffIcon />
-          </IconButton>
+          <Tooltip title="Unmute">
+            <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
+              <VolumeOffIcon />
+            </IconButton>
+          </Tooltip>
         ) : (
-          <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
-            <VolumeUpIcon />
-          </IconButton>
+          <Tooltip title="Mute">
+            <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
+              <VolumeUpIcon />
+            </IconButton>
+          </Tooltip>
         )}
       </Box>
 
-      <Modal open={openModal == 1} onClose={() => setOpenModal(0)}>
-        <StartModal handleClick={handleHide} />
+      <Modal
+        open={openModal == 1}
+        onClose={() => {
+          setOpenModal(0);
+        }}
+      >
+        <StartModal
+          handleHide={handleHide}
+          handleClose={() => {
+            setOpenModal(0);
+          }}
+        />
       </Modal>
-      <Modal open={openModal == 2} onClose={() => setOpenModal(0)}>
+      <Modal open={openModal == 2}>
         <FinishModal score={score} answers={answers} />
       </Modal>
 
