@@ -34,7 +34,7 @@ class dbManager{
         }
       };
 
-    getRandomMatchup = async () => {
+    getRandomMatchups = async () => {
       let resArr = []
 
       let call = await fetch(
@@ -42,32 +42,46 @@ class dbManager{
       );
       let data = await call.json();
       let champs = Object.keys(data.data); // Extracting champion names and sorting them
-      let randomChamp = champs[(Math.floor(Math.random() * champs.length))].toLowerCase()
-      console.log(randomChamp)
-        const command = new QueryCommand({
-          TableName: process.env.TABLE_NAME,
-          KeyConditionExpression: 'myChamp = :v1',
+      while (resArr.length < 10) {
+        let randomChamp = champs[(Math.floor(Math.random() * champs.length))].toLowerCase()
+        console.log(randomChamp)
+          const command = new QueryCommand({
+            TableName: process.env.TABLE_NAME,
+            KeyConditionExpression: 'myChamp = :v1',
+  
+            //Limit:1,
+            ScanIndexForward:false,
+            ExpressionAttributeValues: {
+              ":v1": 
+                randomChamp
+              ,
+  
+            },
+          });
+          try {
+            
+            let response = await this.docClient.send(command);
+            let randomMatchup = response.Items?.[(Math.floor(Math.random() * response.Items?.length))]
+            if (randomMatchup?.winRate > 52 && randomMatchup?.numOfGames > 300) {
+              if (Math.random() > 0.5) {
+                let placeholder = randomMatchup?.myChamp
+                randomMatchup = {...randomMatchup, myChamp: randomMatchup?.enemyChamp, enemyChamp: placeholder, winRate: 100 - randomMatchup?.winRate}
+              }
+              resArr.push(randomMatchup)
+              console.log(randomMatchup);
 
-          //Limit:1,
-          ScanIndexForward:false,
-          ExpressionAttributeValues: {
-            ":v1": 
-              randomChamp
-            ,
+            }
 
-          },
-        });
-        try {
-          
-          let response = await this.docClient.send(command);
-          
-          console.log(response.Items);
-          return response.Items?.[(Math.floor(Math.random() * response.Items?.length))];
-        } catch (error) {
-          console.log(error)
-          throw error;
-        }
+          } catch (error) {
+            console.log(error)
+            throw error;
+          }
       };
+      return resArr
+
+      }
+      
+
 }
 
 export const manager = new dbManager()
