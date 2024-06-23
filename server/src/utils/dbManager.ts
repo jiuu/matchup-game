@@ -42,7 +42,7 @@ class dbManager{
       );
       let data = await call.json();
       let champs = Object.keys(data.data); // Extracting champion names and sorting them
-      let randomChamp = champs[(Math.floor(Math.random() * champs.length))]
+      let randomChamp = champs[(Math.floor(Math.random() * champs.length))].toLowerCase()
       console.log(randomChamp)
         const command = new QueryCommand({
           TableName: process.env.TABLE_NAME,
