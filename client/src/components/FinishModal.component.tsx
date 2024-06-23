@@ -53,8 +53,12 @@ export const FinishModal = ({
 
   let results = answers.map((value, index) => {
     return {
-      myChamp: quizData[index].myChamp,
-      enemyChamp: quizData[index].enemyChamp,
+      myChamp:
+        quizData[index].myChamp?.charAt(0).toUpperCase() +
+        quizData[index].myChamp?.slice(1),
+      enemyChamp:
+        quizData[index].enemyChamp?.charAt(0).toUpperCase() +
+        quizData[index].enemyChamp?.slice(1),
       role: quizData[index].role,
       numOfGames: quizData[index].numOfGames,
       winRate: quizData[index].winRate,
@@ -75,26 +79,29 @@ export const FinishModal = ({
         {/* <Typography id="modal-modal-title" variant="h6" component="h2">
           Finished!
         </Typography> */}
-        <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-          Final score : {score}
+        <Typography
+          id="modal-modal-description"
+          sx={{ mb: 2, textAlign: "center", fontSize: "1.25rem" }}
+        >
+          Score: {score}
         </Typography>
         <table className="mx-auto">
           <thead>
             <tr>
-              <th className="px-5">Your Champ</th>
-              <th className="px-5">Enemy Champ</th>{" "}
-              <th className="px-5">Win Rate</th>{" "}
-              <th className="px-5">Answer</th>
-              <th className="px-5">Role</th>
-              <th className="px-5">Num of Games</th>
+              <th className="text-left pr-10">Your Champ</th>
+              <th className="text-left pr-10">Enemy Champ</th>
+              <th className="text-left pr-10">Win Rate</th>
+              <th className="text-left pr-10">Answer</th>
+              <th className="text-left pr-10">Role</th>
+              <th className="text-left pr-10">Num of Games</th>
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((data, index) => (
               <tr key={index}>
                 <td>{data?.myChamp}</td>
-                <td>{data?.enemyChamp}</td>{" "}
-                <td>{100 - (data?.winRate as number)}</td>{" "}
+                <td>{data?.enemyChamp}</td>
+                <td>{100 - (data?.winRate as number) + "%"}</td>
                 <td>{data?.correct ? "Correct" : "Wrong"}</td>
                 <td>{data?.role}</td>
                 <td>{data?.numOfGames}</td>
@@ -111,6 +118,7 @@ export const FinishModal = ({
                   sx={{
                     "& .MuiPaginationItem-root": {
                       color: "white",
+                      marginTop: "8px",
                     },
                   }}
                 />
