@@ -12,10 +12,10 @@ export const FinishModal = ({
   answers: boolean[];
 }) => {
   const modalStyle = {
-    //position: "absolute",
-    //top: "50%",
-    //left: "50%",
-    //transform: "translate(-50%, -50%)",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
     boxShadow: 24,
     bgcolor: "slategrey",
     opacity: 0.9,
@@ -24,6 +24,7 @@ export const FinishModal = ({
         borderRadius: 4,
     width:{xs: "100%", md:"60%"},
   };
+  const typoStyle = { mb: 2, textAlign: "center", fontSize: "1.25rem" }
 
   const interval = 250;
   let rank = "bronze";
@@ -69,7 +70,7 @@ export const FinishModal = ({
   });
   let paginatedData = results.slice((page - 1) * 5, page * 5);
   return (
-    <div className="flex flex-col justify-center h-screen">
+    <div >
       <Box sx={modalStyle} >
         <Image
           src={`/rank/${rank}.svg`}
@@ -83,7 +84,8 @@ export const FinishModal = ({
         </Typography> */}
         <Typography
           id="modal-modal-description"
-          sx={{ mb: 2, textAlign: "center", fontSize: "1.25rem" }}
+          variant="h6"
+          sx={typoStyle}
         >
           Score: {score}
         </Typography>
@@ -131,13 +133,21 @@ export const FinishModal = ({
                     },
                   }}
                 />
-                 <Button
-                  onClick={() => {
-                    window.location.reload();
-                  }}
-                >
+                <Box className="flex justify-end">
+                   <Button
+                   //className="text-white mr-4"
+            //size="small"
+            disableTouchRipple
+            onClick={() => {
+              window.location.reload();
+            }}
+            sx={{ color: "white", mr: "1rem" }}
+            >
+                
                   Try again
                 </Button>
+                </Box>
+                         
       </Box>
     </div>
   );

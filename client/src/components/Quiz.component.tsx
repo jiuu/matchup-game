@@ -6,6 +6,7 @@ import { QuizContextType } from "@/utils/quiz.types";
 import { Box, IconButton, Modal, Tooltip } from "@mui/material";
 import { FinishModal } from "./FinishModal.component";
 import { StartModal } from "./StartModal.component";
+import { ContactModal} from "./ContactModal.component";
 import { useScore } from "@/hooks/useScore";
 import HelpIcon from "@mui/icons-material/Help";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -20,7 +21,7 @@ export const Quiz = () => {
   const [lives, setLives] = useState<number>(5);
   const [imageOpacity, setImageOpacity] = useState<number>(1);
   const [lifeRed, setLifeRed] = useState<boolean>(false);
-  const [openModal, setOpenModal] = useState<number>(0); //0 for close, 1 for Start, 2 for Finish
+  const [openModal, setOpenModal] = useState<number>(0); //0 for close, 1 for Start, 2 for Copyright, 3 for Finish
   const [isOver, setIsOver] = useState<boolean>(false);
   const [answers, setAnswers] = useState<boolean[]>([]);
 
@@ -67,7 +68,7 @@ export const Quiz = () => {
 
   useEffect(() => {
     if (lives <= 0) {
-      setOpenModal(2);
+      setOpenModal(3);
       setIsOver(true);
     }
   }, [lives]);
@@ -103,25 +104,25 @@ export const Quiz = () => {
           Score: {score} | Lives: {lives} | Streak: {streak}
         </Box>
         <Tooltip title="Info">
-          <IconButton sx={{ color: "white" }} onClick={() => setOpenModal(1)}>
+          <IconButton onClick={() => setOpenModal(1)}>
             <HelpIcon />
           </IconButton>
         </Tooltip>
         {mute ? (
           <Tooltip title="Unmute">
-            <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
+            <IconButton onClick={() => toggleMute()}>
               <VolumeOffIcon />
             </IconButton>
           </Tooltip>
         ) : (
           <Tooltip title="Mute">
-            <IconButton sx={{ color: "white" }} onClick={() => toggleMute()}>
+            <IconButton onClick={() => toggleMute()}>
               <VolumeUpIcon />
             </IconButton>
           </Tooltip>
         )}
         <Tooltip title="Copyright/Contact" >
-          <IconButton sx={{ color: "white"}} onClick={() => {}}>
+          <IconButton onClick={() => setOpenModal(2)}>
             <CopyrightIcon/>
             </IconButton>
         </Tooltip>
@@ -140,7 +141,14 @@ export const Quiz = () => {
           }}
         />
       </Modal>
-      <Modal open={openModal == 2}>
+      <Modal open={openModal === 2}  onClose={() => {
+          setOpenModal(0);
+        }}>
+        <ContactModal handleClose={() => {
+          setOpenModal(0);
+        }} />
+      </Modal>
+      <Modal open={openModal === 3}>
         <FinishModal score={score} answers={answers} />
       </Modal>
 

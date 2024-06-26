@@ -9,8 +9,20 @@ const roboto = Roboto({
 });
 
 const theme = createTheme({
+  palette: {
+    primary:{
+      main:"#fff"
+    }
+  },
   typography: {
     fontFamily: roboto.style.fontFamily,
+  },
+  components: {
+    MuiIconButton:{
+      defaultProps:{
+        color: 'primary'
+      }
+    }
   }
 });
 
