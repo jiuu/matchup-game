@@ -10,6 +10,7 @@ import { useScore } from "@/hooks/useScore";
 import HelpIcon from "@mui/icons-material/Help";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import CopyrightIcon from '@mui/icons-material/Copyright';
 
 export const Quiz = () => {
   //Component for rendering our quiz page
@@ -119,6 +120,11 @@ export const Quiz = () => {
             </IconButton>
           </Tooltip>
         )}
+        <Tooltip title="Copyright/Contact" >
+          <IconButton sx={{ color: "white"}} onClick={() => {}}>
+            <CopyrightIcon/>
+            </IconButton>
+        </Tooltip>
       </Box>
 
       <Modal

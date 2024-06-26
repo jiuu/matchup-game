@@ -12,15 +12,17 @@ export const FinishModal = ({
   answers: boolean[];
 }) => {
   const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    //position: "absolute",
+    //top: "50%",
+    //left: "50%",
+    //transform: "translate(-50%, -50%)",
     boxShadow: 24,
     bgcolor: "slategrey",
     opacity: 0.9,
     p: "1.5rem 3rem",
-    borderRadius: 4,
+    mx: {xs: '0rem', md:"auto"},
+        borderRadius: 4,
+    width:{xs: "100%", md:"60%"},
   };
 
   const interval = 250;
@@ -67,8 +69,8 @@ export const FinishModal = ({
   });
   let paginatedData = results.slice((page - 1) * 5, page * 5);
   return (
-    <div>
-      <Box sx={modalStyle}>
+    <div className="flex flex-col justify-center h-screen">
+      <Box sx={modalStyle} >
         <Image
           src={`/rank/${rank}.svg`}
           alt={"Rank"}
@@ -111,28 +113,31 @@ export const FinishModal = ({
           <tfoot>
             <tr>
               <td>
-                <Pagination
+                
+               
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+        <Pagination
                   count={Math.ceil(answers.length / 5)}
                   page={page}
                   onChange={handleChangePage}
                   sx={{
+                    
                     "& .MuiPaginationItem-root": {
                       color: "white",
                       marginTop: "8px",
                     },
                   }}
                 />
-                <Button
+                 <Button
                   onClick={() => {
                     window.location.reload();
                   }}
                 >
                   Try again
                 </Button>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
       </Box>
     </div>
   );

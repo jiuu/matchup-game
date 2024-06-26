@@ -1,7 +1,7 @@
 "use client";
 
 import Matchup from "common/types/matchup.types";
-import { Box, Button, Skeleton } from "@mui/material";
+import { Box, Button, ButtonBase, IconButton, Skeleton } from "@mui/material";
 import Image from "next/image";
 import { useContext } from "react";
 import { QuizContextType } from "@/utils/quiz.types";
@@ -34,22 +34,27 @@ export const Question = ({
           disableRipple
           disabled={isOver}
           sx={{ mt: 8, boxShadow: "none" }}
+          className={` h-2/5 w-auto `}
+
         >
           <Image
             src={`/champions/${data?.myChamp}_0.jpg`}
-            width={200}
-            height={363}
+            width={0}
+            height={0}
             alt={data?.myChamp || "My Champion"}
-            style={{ opacity: imageOpacity }}
-            className={`transition-opacity duration-500 ease-out `}
+            style={{ opacity: imageOpacity  }}
+            sizes="100vw"
+
+            className={`transition-opacity duration-500 ease-out h-full w-full  `}
           ></Image>
         </Button>
       ) : (
         <Skeleton
           variant="rectangular"
-          width={200}
-          height={363}
-          sx={{ margin: 1, mt: 8 }}
+          width={"22vh"}
+          height={"40%"}
+          sx={{ margin: 1, mt: 8}}
+
         />
       )}
 
@@ -61,39 +66,45 @@ export const Question = ({
           alt={data?.role || "Role"}
           style={{ opacity: imageOpacity }}
           objectPosition="absolute"
+          
           className={`transition-opacity duration-500 ease-out mx-4 my-4`}
         />
       ) : (
         <Skeleton
           variant="rectangular"
-          width={30}
-          height={30}
-          className={"my-4"}
+          width={'30px'}
+          height={'30px'}
+          className={"my-4 flex-none"}
         />
       )}
 
-      {quizData?.length ? (
+      { quizData?.length? (
         <Button
           onClick={() => handleClick(100 - (data.winRate || 0))}
           disableRipple
           disabled={isOver}
           sx={{ mb: 8 }}
+          className={` h-2/5 w-auto `}
         >
           <Image
             src={`/champions/${data?.enemyChamp}_0.jpg`}
-            width={200}
-            height={363}
+            width={0}
+            height={0}
             alt={data?.enemyChamp || "Enemy Champion"}
-            style={{ opacity: imageOpacity }}
-            className={` transition-opacity duration-500 ease-out `}
+            sizes="100vw"
+            style={{ opacity: imageOpacity  }}
+            
+            className={` transition-opacity duration-500 ease-out h-full w-auto`}
           ></Image>
         </Button>
       ) : (
         <Skeleton
           variant="rectangular"
-          width={200}
-          height={363}
+          width={"22vh"}
+          height={"40%"}
           sx={{ margin: 1, mb: 8 }}
+
+          
         />
       )}
     </div>
