@@ -20,11 +20,11 @@ export const FinishModal = ({
     bgcolor: "slategrey",
     opacity: 0.9,
     p: "1.5rem 3rem",
-    mx: {xs: '0rem', md:"auto"},
-        borderRadius: 4,
-    width:{xs: "100%", md:"60%"},
+    mx: { xs: "0rem", md: "auto" },
+    borderRadius: 4,
+    width: { xs: "100%", md: "60%" },
   };
-  const typoStyle = { mb: 2, textAlign: "center", fontSize: "1.25rem" }
+  const typoStyle = { mb: 2, textAlign: "center", fontSize: "1.25rem" };
 
   const interval = 250;
   let rank = "bronze";
@@ -70,8 +70,8 @@ export const FinishModal = ({
   });
   let paginatedData = results.slice((page - 1) * 5, page * 5);
   return (
-    <div >
-      <Box sx={modalStyle} >
+    <div>
+      <Box sx={modalStyle}>
         <Image
           src={`/rank/${rank}.svg`}
           alt={"Rank"}
@@ -82,11 +82,7 @@ export const FinishModal = ({
         {/* <Typography id="modal-modal-title" variant="h6" component="h2">
           Finished!
         </Typography> */}
-        <Typography
-          id="modal-modal-description"
-          variant="h6"
-          sx={typoStyle}
-        >
+        <Typography id="modal-modal-description" variant="h6" sx={typoStyle}>
           Score: {score}
         </Typography>
         <table className="mx-auto">
@@ -95,9 +91,8 @@ export const FinishModal = ({
               <th className="text-left pr-10">Your Champ</th>
               <th className="text-left pr-10">Enemy Champ</th>
               <th className="text-left pr-10">Win Rate</th>
-              <th className="text-left pr-10">Answer</th>
               <th className="text-left pr-10">Role</th>
-              <th className="text-left pr-10">Num of Games</th>
+              <th className="text-left pr-10">Answer</th>
             </tr>
           </thead>
           <tbody>
@@ -106,48 +101,36 @@ export const FinishModal = ({
                 <td>{data?.myChamp}</td>
                 <td>{data?.enemyChamp}</td>
                 <td>{100 - (data?.winRate as number) + "%"}</td>
-                <td>{data?.correct ? "Correct" : "Wrong"}</td>
                 <td>{data?.role}</td>
-                <td>{data?.numOfGames}</td>
+                <td>{data?.correct ? "✅" : "❌"}</td>
               </tr>
             ))}
           </tbody>
-          <tfoot>
-            <tr>
-              <td>
-                
-               
-              </td>
-            </tr>
-          </tfoot>
         </table>
         <Pagination
-                  count={Math.ceil(answers.length / 5)}
-                  page={page}
-                  onChange={handleChangePage}
-                  sx={{
-                    
-                    "& .MuiPaginationItem-root": {
-                      color: "white",
-                      marginTop: "8px",
-                    },
-                  }}
-                />
-                <Box className="flex justify-end">
-                   <Button
-                   //className="text-white mr-4"
+          count={Math.ceil(answers.length / 5)}
+          page={page}
+          onChange={handleChangePage}
+          sx={{
+            "& .MuiPaginationItem-root": {
+              color: "white",
+              marginTop: "8px",
+            },
+          }}
+        />
+        <Box className="flex justify-end">
+          <Button
+            //className="text-white mr-4"
             //size="small"
             disableTouchRipple
             onClick={() => {
               window.location.reload();
             }}
             sx={{ color: "white", mr: "1rem" }}
-            >
-                
-                  Try again
-                </Button>
-                </Box>
-                         
+          >
+            Try again
+          </Button>
+        </Box>
       </Box>
     </div>
   );
