@@ -28,7 +28,7 @@ export const ContactModal = ({ handleClose }: { handleClose: () => void }) => {
           <Box sx={{ mb: 2 }}>
             Thanks for checking out my project! If you have any suggestions,
             inquiries, <span className="text-[8px]">or job offers 🙃,</span>{" "}
-            please shoot me an email at alexjwpak@gmail.com.
+            please shoot me an email at counterpickmegame@gmail.com.
           </Box>
 
           <Box>
